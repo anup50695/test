@@ -7,7 +7,6 @@ from azure.storage.blob import ContainerClient
 from flask import request, send_from_directory
 from datetime import datetime
 from sqlalchemy import create_engine, event
-from urllib.parse import quote_plus
 import cv2
 import numpy as np
 from azure.cognitiveservices.vision.customvision.prediction import CustomVisionPredictionClient
