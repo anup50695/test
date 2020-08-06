@@ -3,7 +3,7 @@ from wtforms import Form, TextField, TextAreaField, validators, StringField, Sub
 import pandas as pd
 from werkzeug.utils import secure_filename
 #from azure.storage.blob import ContainerClient
-#import cv2
+
 import numpy as np
 #from werkzeug.contrib.cache import SimpleCache
 #cache = SimpleCache()
