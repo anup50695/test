@@ -4,6 +4,7 @@ import pandas as pd
 from werkzeug.utils import secure_filename
 from azure.storage.blob import ContainerClient
 import cv2
+import urllib.request
 
 import numpy as np
 #from werkzeug.contrib.cache import SimpleCache
@@ -71,15 +72,99 @@ class ReusableForm(Form):
             f.save(secure_filename(f.filename))
             print('Here')
 
+    @app.route('/test_api_option', methods=['GET','POST'])
+    def test_api_option():
+        if request.method == 'POST':
+            img = request.files['file'].read()
+        rand_suffix = np.random.randint(1e7)
+        # read image
+        npimg = np.fromstring(img, np.uint8)
+        # convert numpy array to image
+        img_cv2 = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+        file_name = "img_cv2" + str(rand_suffix) + ".jpg"
+        cv2.imwrite(file_name, img_cv2)
+        # write to Azure storage
+        CONNECT_STR = "DefaultEndpointsProtocol=https;AccountName=azurehackml2012795721;AccountKey=ISNFmGieyfmUixhgZqrVCXdk4S0STTULUqfcLTJMpmWeFrU6u1FlyMIljJRp6+tx5/0KAqfqM78KZcbMxbLQ7w==;EndpointSuffix=core.windows.net"
+        CONTAINER_NAME = "ai4pscapsteam"
+
+        container_client = ContainerClient.from_connection_string(conn_str=CONNECT_STR,
+                                                                  container_name=CONTAINER_NAME)
+
+        # Upload file
+        with open(file_name, "rb") as data:
+            container_client.upload_blob(name=file_name, data=data, overwrite=True)
+
+
     @app.route('/detect_img_vm_api', methods=['GET'])
     def detect_img_vm_api():
-        if 'id' in request.args:
-            id = int(request.args['id'])
-        if id == 1:
-            res = ["abc"]
-        else:
-            res = ["def"]
-        return jsonify(res)
+        if 'file_name' in request.args:
+            file_name = int(request.args['file_name'])
+
+        link = "https://azurehackml2012795721.blob.core.windows.net/ai4pscapsteam/" + file_name + ".jpg"
+        results = predictor.detect_image_url(project_id, "roadDamageModel", link)
+
+        # compile results
+        pred_res = []
+        for prediction in results.predictions:
+            pred_res.append([prediction.tag_name, prediction.probability * 100,
+                             prediction.bounding_box.left, prediction.bounding_box.top,
+                             prediction.bounding_box.width, prediction.bounding_box.height])
+
+        pred_res = pd.DataFrame(pred_res)
+        pred_res.columns = ["tag_name", "prob", "left", "top", "width", "height"]
+        pred_res = pred_res[pred_res.prob > 40]
+        pred_res = pred_res.drop_duplicates(subset="tag_name")
+        tag = pred_res.tag_name.iloc[0]
+
+        # add bounding boxes
+        # Summarize the results.
+        pred_res = []
+        for prediction in results.predictions:
+            pred_res.append([prediction.tag_name, prediction.probability * 100,
+                             prediction.bounding_box.left, prediction.bounding_box.top,
+                             prediction.bounding_box.width, prediction.bounding_box.height])
+
+        pred_res = pd.DataFrame(pred_res)
+        pred_res.columns = ["tag_name", "prob", "left", "top", "width", "height"]
+        pred_res = pred_res[pred_res.prob > 40]
+        pred_res = pred_res.drop_duplicates(subset="tag_name")
+
+        # read image
+        req = urllib.request.urlopen(link)
+        arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+        img_cv2 = cv2.imdecode(arr, -1)  # 'Load it as it is'
+
+        for i in range(pred_res.shape[0]):
+            x = int(pred_res.left.iloc[i] * img_cv2.shape[0])
+            y = int(pred_res.top.iloc[i] * img_cv2.shape[1])
+
+            x2 = x + int(pred_res.width.iloc[i] * img_cv2.shape[0])
+            y2 = y + int(pred_res.height.iloc[i] * img_cv2.shape[1])
+
+            img_cv2 = cv2.rectangle(img_cv2, (x, y), (x2, y2), (0, 0, 255), 2)
+            tag_name = pred_res.tag_name.iloc[i]
+
+            org = (x + 40, y + 40)
+            img_cv2 = cv2.putText(img_cv2, tag_name, org, fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                                  fontScale=1, color=(255, 0, 0), thickness=2)
+            img_cv2_rgb = cv2.cvtColor(img_cv2, cv2.COLOR_BGR2RGB)
+
+        # write image with boudning boxes
+        file_name_detect = file_name + "_PREDICTION" + ".jpg"
+        cv2.imwrite(file_name_detect, img_cv2_rgb)
+
+        # write to Azure storage
+        CONNECT_STR = "DefaultEndpointsProtocol=https;AccountName=azurehackml2012795721;AccountKey=ISNFmGieyfmUixhgZqrVCXdk4S0STTULUqfcLTJMpmWeFrU6u1FlyMIljJRp6+tx5/0KAqfqM78KZcbMxbLQ7w==;EndpointSuffix=core.windows.net"
+        CONTAINER_NAME = "ai4pscapsteam"
+
+        container_client = ContainerClient.from_connection_string(conn_str=CONNECT_STR,
+                                                                  container_name=CONTAINER_NAME)
+
+        # Upload file
+        with open(file_name_detect, "rb") as data:
+            container_client.upload_blob(name=file_name_detect, data=data, overwrite=True)
+
+
 
 
 
