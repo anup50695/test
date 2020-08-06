@@ -1,13 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-<meta charset=utf-8 />
-  <script type="text/javascript">
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+          rel="stylesheet" type="text/css"/>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset=utf-8/>
+    <script type="text/javascript">
     function f1(objButton){
       
       objButton.value = document.getElementById("countryh44").innerHTML +'&nbsp;&nbsp;&nbsp;&nbsp;<b>City : '+ objButton.value+'</b>';    
@@ -71,119 +71,121 @@
           }
          
     }
-  </script>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title> 
-    Dedupe Engine
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <!-- CSS Files -->
-  <link href="static/assets/css/material-kit.css?v=2.0.7" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="static/assets/demo/demo.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static',    filename='css/finalTable.css') }}">
+
+    </script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>
+        Dedupe Engine
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="static/assets/css/material-kit.css?v=2.0.7" rel="stylesheet"/>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="static/assets/demo/demo.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ url_for('static',    filename='css/finalTable.css') }}">
 </head>
 
 <body onload="FocusOnInput()">
-  <div class="page-header header-filter" style="background-image: url('static/assets/img/Bcgrnd2.jpg'); ">
+<div class="page-header header-filter" style="background-image: url('static/assets/img/Bcgrnd2.jpg'); ">
 
-   <nav class="navbar  fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
-      <div class="container">
-        <form class="form" method="POST" name="home" action="home">
-        <div class="navbar-translate">
-        <img src='static/assets/img/caps.jpg' alt="HTML5 Icon" style="width:50px;height:50px;">
-          <a class="navbar-brand">
+    <nav class="navbar  fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
+        <div class="container">
+            <form class="form" method="POST" name="home" action="home">
+                <div class="navbar-translate">
+                    <img src='static/assets/img/caps.jpg' alt="HTML5 Icon" style="width:50px;height:50px;">
+                    <a class="navbar-brand">
 
-            <b>CAPS - Municipal Council</b> </a>
+                        <b>CAPS - Municipal Council</b> </a>
 
-          </div>
-        </form>
-          <div class="collapse navbar-collapse">
-            <form class="form-inline ml-auto" method="POST" action="search">
-                  <button type="submit" class="btn btn-success btn-lg" id='countryh44' name = 'countryh44' value="{{ search }}" ><b>Employee Login</b></button> 
+                </div>
+            </form>
+            <div class="collapse navbar-collapse">
+                <form class="form-inline ml-auto" method="POST" action="search">
+                    <button type="submit" class="btn btn-success btn-lg" id='countryh44' name='countryh44'
+                            value="{{ search }}"><b>Employee Login</b></button>
                 </form>
-                
+
+            </div>
         </div>
-      </div>
     </nav>
 
-<div class="main main-raised" style="width: 100%;">
+    <div class="main main-raised" style="width: 100%;">
 
-      <div class="page-header header-filter clear-filter" data-parallax="false" style=" height: 200vh">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 ml-auto mr-auto">
+        <div class="page-header header-filter clear-filter" data-parallax="false" style=" height: 200vh">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto">
 
-              <div class="brand" style="padding-top: 100px">
+                        <div class="brand" style="padding-top: 100px">
 
-                <h2 style="text-align: center; color: black"><b>Register your complaint</b></h2>
-           </div>
+                            <h2 style="text-align: center; color: black"><b>Register your complaint</b></h2>
+                        </div>
 
-           <form action = "searchTable" method = "POST" 
-         enctype = "multipart/form-data">
-         
-           <div class="form-row">
-         
-           
-              <div class="form-group col-md-4 bmd-form-group">
-                <label for="exampleInput1" class="bmd-label-floating">Name</label>
-                <input type="email" class="form-control" id="exampleInput1">
-                <span class="bmd-help">Enter your name here....</span>
-              </div>
+                        <form method=post action="{{ url_for('detect_img') }}" enctype=multipart/form-data>
 
-              <div class="form-group col-md-4 bmd-form-group">
-                <label for="exampleInput2" class="bmd-label-floating">Phone</label>
-                <input type="phone" class="form-control" id="exampleInput2">
-                <span class="bmd-help">Enter your phone here....</span>
-              </div>
-              <div class="form-group col-md-4 bmd-form-group">
-                <label for="exampleInput3" class="bmd-label-floating">Email</label>
-                <input type="email" class="form-control" id="exampleInput3">
-                <span class="bmd-help">Enter your email here....</span>
-              </div>
-              <div class="form-group col-md-12 bmd-form-group">
-                <label for="exampleInput4" class="bmd-label-floating">Comments</label>
-                <input type="comments" class="form-control" id="exampleInput4">
-                <span class="bmd-help">Enter your comments here....</span>
-              </div>
-                 <div>
-
-              <input type='file' class="btn btn-success" id="upImg" name= "upImg" onchange="readURL(this);" />
-              <img id="blah" src="#" alt="your image" />  
-              </div>
-              <div class="form-group col-md-6 bmd-form-group">
+                            <div class="form-row">
 
 
-                <button type="submit" class="btn btn-success"  id='validateButton' name="validate" value="Validate"> Submit </button>
-                    
-              </form>
+                                <div class="form-group col-md-4 bmd-form-group">
+                                    <label for="exampleInput1" class="bmd-label-floating">Name</label>
+                                    <input type="email" class="form-control" id="exampleInput1">
+                                    <span class="bmd-help">Enter your name here....</span>
+                                </div>
+
+                                <div class="form-group col-md-4 bmd-form-group">
+                                    <label for="exampleInput2" class="bmd-label-floating">Phone</label>
+                                    <input type="phone" class="form-control" id="exampleInput2">
+                                    <span class="bmd-help">Enter your phone here....</span>
+                                </div>
+                                <div class="form-group col-md-4 bmd-form-group">
+                                    <label for="exampleInput3" class="bmd-label-floating">Email</label>
+                                    <input type="email" class="form-control" id="exampleInput3">
+                                    <span class="bmd-help">Enter your email here....</span>
+                                </div>
+                                <div class="form-group col-md-12 bmd-form-group">
+                                    <label for="exampleInput4" class="bmd-label-floating">Comments</label>
+                                    <input type="comments" class="form-control" id="exampleInput4">
+                                    <span class="bmd-help">Enter your comments here....</span>
+                                </div>
+                                <div>
+
+                                    <!--<input type='file' class="btn btn-success" id="upImg" name="upImg"
+                                           onchange="readURL(this);"/>
+                                    -->
+                                    <input type="file" name="file" id="input-file-now" class="filestyle"/>
+                                    <img id="blah" src="#" alt="your image"/>
+                                </div>
+                                <div class="form-group col-md-6 bmd-form-group">
+
+
+                                    <button type="submit" class="btn btn-success" id='validateButton' name="validate"
+                                            value="Validate"> Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
+        </div>
+        <form class="form" method="POST" name="home" action="route2">
 
-          </div>
-            </div>
-          </div>
-          <form class="form" method="POST" name="home" action="route2">
-         
         </form>
-      
- 
-   </div>
 
 
-
-
- </div>
+    </div>
 
 
 </div>
 
 
-
-
+</div>
 
 
 <!--   Core JS Files   -->
