@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request,url_for
+from flask import Flask, render_template, flash, request,url_for,jsonify
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import pandas as pd
 from werkzeug.utils import secure_filename
@@ -70,6 +70,18 @@ class ReusableForm(Form):
             f = request.files['upImg']
             f.save(secure_filename(f.filename))
             print('Here')
+
+    @app.route('/detect_img_vm_api', methods=['GET'])
+    def detect_img_vm_api():
+        if 'id' in request.args:
+            id = int(request.args['id'])
+        if id == 1:
+            res = ["abc"]
+        else:
+            res = ["def"]
+        return jsonify(res)
+
+
 
     @app.route('/detect_img', methods=['GET', 'POST'])
     def detect_img():
